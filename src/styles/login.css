@@ -1,0 +1,84 @@
+.left__side {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 70px;
+}
+
+.left__box h1 {
+  font-size: 34px;
+  color: #11175d;
+  font-weight: 700;
+  margin-top: 100px;
+}
+
+.left__box p {
+  color: #a5a8c2;
+  font-size: 22px;
+}
+
+.text_feild_box {
+  margin-top: 26px;
+}
+
+.MuiFormControl-root p {
+  color: red;
+  font-size: 14px;
+}
+
+.left__side button {
+  margin-top: 30px;
+  width: 360px;
+  border-radius: 25px;
+  background-color: #5f35f5;
+  padding: 10px 0;
+}
+
+.social_btn_box {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.social_btn_box .btn {
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.social_btn_box .btn:hover {
+  background-color: whitesmoke;
+}
+
+.social_btn_box .btn p {
+  color: #11175d;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.left__box .signup_msg {
+  font-size: 14px;
+  color: #03014c;
+  margin-top: 40px;
+}
+
+.signup_msg span {
+  font-weight: 600;
+  color: #ea6c00;
+}
+
+.login__part .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.23);
+  border-radius: 0;
+}
+
+.left__side button {
+  margin-top: 30px;
+  width: 360px;
+  border-radius: 5px;
+  background-color: #5f35f5;
+  padding: 10px 0;
+}

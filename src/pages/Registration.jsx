@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Grid, TextField, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import "../styles/registration.css";
 const Registration = () => {
   const [name, setName] = useState("");
@@ -96,6 +97,12 @@ const Registration = () => {
               <Button variant="contained" onClick={handleOnSubmit}>
                 Sign up
               </Button>
+              <p className="login_msg">
+               Already have an account ?
+                <Link to="/login" style={{textDecoration:"none", marginLeft:"10px"}}>
+                  <span>Login</span>
+                </Link>
+              </p>
             </div>
           </div>
         </Grid>

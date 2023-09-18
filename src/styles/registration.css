@@ -1,7 +1,6 @@
 .left__side {
   display: flex;
   justify-content: flex-end;
-  align-items: center;
   margin-right: 70px;
 }
 
@@ -9,7 +8,7 @@
   font-size: 34px;
   color: #11175d;
   font-weight: 700;
-  margin-top: 100px;
+  
 }
 
 .left__box p {
@@ -25,10 +24,21 @@
   color: red;
   font-size: 14px;
 }
-.left__side button{
-    margin-top: 30px;
-    width: 360px;
-    border-radius: 25px;
-    background-color: #5F35F5;
-    padding: 10px 0;
+.left__side button {
+  margin-top: 30px;
+  width: 360px;
+  border-radius: 25px;
+  background-color: #5f35f5;
+  padding: 10px 0;
+}
+
+.left__box .login_msg {
+  font-size: 14px;
+  color: #03014c;
+  margin-top: 10px;
+}
+
+.left__box .login_msg span {
+  color: #ea6c00;
+  font-weight: 600;
 }
