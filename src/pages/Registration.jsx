@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Grid, TextField, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import "../styles/registration.css";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
+
 const Registration = () => {
+
+  const navigate = useNavigate();
+
+  const auth = getAuth()
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,10 +41,16 @@ const Registration = () => {
       setConfirmPasswordError("");
     } else {
       setMatchedPassword("");
+      createUserWithEmailAndPassword(auth, email, password).then((user)=>{
+        console.log(user)
+        navigate('/login');
+      }).catch((err)=>{
+        console.log(err)
+      })
     }
   };
 
-  console.log(name);
+ 
   return (
     <section className="registration__part">
       <Grid container spacing={0}>

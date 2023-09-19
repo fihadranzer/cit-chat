@@ -1,14 +1,25 @@
 import React, { useState } from "react";
 import "../styles/login.css";
 import { Grid, TextField, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 const Login = () => {
+  const auth = getAuth();
+  const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [passwordLengthError, setPasswordLengthError] = useState("");
+
+  const [checkPassword, setcheCkPassword] = useState(false);
+
+  let handleIconClick = () => {
+    setcheCkPassword(!checkPassword);
+  };
 
   const handleOnSubmit = () => {
     if (!email) {
@@ -19,11 +30,19 @@ const Login = () => {
     } else if (password.length < 8) {
       setPasswordLengthError("Password minimum 8 character in length ");
       setPasswordError("");
-    } else if (password === password) {
+    } else {
       //  Login database here
       console.log("data sent");
       setPasswordLengthError(" ");
-    } else {
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          console.log(userCredential);
+            navigate('/home')
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
@@ -63,20 +82,32 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
               <br />
-              <TextField
-                helperText={
-                  passwordError
-                    ? passwordError
-                    : passwordLengthError
-                    ? passwordLengthError
-                    : ""
-                }
-                id="demo-helper-text-misaligned"
-                label="Password"
-                style={{ width: "360px", marginTop: "30px" }}
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
+
+              <div className="eye">
+                <TextField
+                  helperText={
+                    passwordError
+                      ? passwordError
+                      : passwordLengthError
+                      ? passwordLengthError
+                      : ""
+                  }
+                  id="demo-helper-text-misaligned"
+                  label="Password"
+                  style={{ width: "360px", marginTop: "30px" }}
+                  type={checkPassword ? "text" : "password"}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+
+                {checkPassword ? (
+                  <AiFillEye className="eye_icon" onClick={handleIconClick} />
+                ) : (
+                  <AiFillEyeInvisible
+                    className="eye_icon"
+                    onClick={handleIconClick}
+                  />
+                )}
+              </div>
 
               <br />
               <Button variant="contained" onClick={handleOnSubmit}>

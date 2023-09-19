@@ -82,3 +82,16 @@
   background-color: #5f35f5;
   padding: 10px 0;
 }
+
+
+
+.left__side  .eye{
+  position: relative;
+}
+.left__side  .eye_icon{
+position: absolute;
+bottom: 20px;
+right: 60px;
+cursor: pointer;
+
+}
