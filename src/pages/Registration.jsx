@@ -1,15 +1,20 @@
 import React, { useState } from "react";
-import { Grid, TextField, Button } from "@mui/material";
-import { Link , useNavigate } from "react-router-dom";
+import { Grid, TextField, Button, Alert, Collapse } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/registration.css";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
 const Registration = () => {
-
+  const auth = getAuth();
   const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
 
-  const auth = getAuth()
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +25,7 @@ const Registration = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [passwordLengthError, setPasswordLengthError] = useState("");
   const [matchedPassword, setMatchedPassword] = useState("");
+  const [existingEmailError, setExixtingEmailError] = useState("");
 
   const handleOnSubmit = () => {
     if (!name) {
@@ -41,16 +47,26 @@ const Registration = () => {
       setConfirmPasswordError("");
     } else {
       setMatchedPassword("");
-      createUserWithEmailAndPassword(auth, email, password).then((user)=>{
-        console.log(user)
-        navigate('/login');
-      }).catch((err)=>{
-        console.log(err)
-      })
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((user) => {
+          console.log(user);
+          sendEmailVerification(auth.currentUser).then(() => {
+            console.log("Verification email sent");
+          });
+          navigate("/login");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          if (errorCode.includes("email")) {
+            setExixtingEmailError(
+              "Email is already in use please try with another email"
+            );
+            setOpen(true)
+          }
+        });
     }
   };
 
- 
   return (
     <section className="registration__part">
       <Grid container spacing={0}>
@@ -59,11 +75,29 @@ const Registration = () => {
             <div className="left__box">
               <h1>Get started with easily register</h1>
               <p>Free register and you can enjoy it</p>
+
+              <Collapse in={open}>
+                <Alert
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpen(false);
+                      }}>
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}>
+                  {existingEmailError}
+                </Alert>
+              </Collapse>
               <TextField
                 helperText={nameError}
                 id="demo-helper-text-misaligned"
                 label="Full Name"
-                style={{ width: "360px", marginTop: "30px" }}
+                style={{ width: "360px", marginTop: "20px" }}
                 type="text"
                 onChange={(e) => setName(e.target.value)}
               />
@@ -72,7 +106,7 @@ const Registration = () => {
                 helperText={emailError}
                 id="demo-helper-text-misaligned"
                 label="Email"
-                style={{ width: "360px", marginTop: "30px" }}
+                style={{ width: "360px", marginTop: "20px" }}
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -87,7 +121,7 @@ const Registration = () => {
                 }
                 id="demo-helper-text-misaligned"
                 label="Password"
-                style={{ width: "360px", marginTop: "30px" }}
+                style={{ width: "360px", marginTop: "20px" }}
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -102,17 +136,22 @@ const Registration = () => {
                 }
                 id="demo-helper-text-misaligned"
                 label="Confirm Password"
-                style={{ width: "360px", marginTop: "30px" }}
+                style={{ width: "360px", marginTop: "20px" }}
                 type="password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
               <br />
-              <Button variant="contained" onClick={handleOnSubmit}>
+              <Button
+                variant="contained"
+                onClick={handleOnSubmit}
+                style={{ borderRadius: "25px" }}>
                 Sign up
               </Button>
               <p className="login_msg">
-               Already have an account ?
-                <Link to="/login" style={{textDecoration:"none", marginLeft:"10px"}}>
+                Already have an account ?
+                <Link
+                  to="/login"
+                  style={{ textDecoration: "none", marginLeft: "10px" }}>
                   <span>Login</span>
                 </Link>
               </p>

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import "../styles/login.css";
-import { Grid, TextField, Button } from "@mui/material";
+import { Grid, TextField, Button, Alert, Collapse } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 const Login = () => {
   const auth = getAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
+  const [wrongPasswordError, setWrongPasswordError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -38,10 +41,17 @@ const Login = () => {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           console.log(userCredential);
-            navigate('/home')
+          navigate("/home");
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          const errorCode = error.code;
+          if (errorCode.includes("wrong-password")) {
+            setWrongPasswordError("Password Doesn't Matched. ");
+            setOpen(true);
+          } else if (errorCode.includes("user-not-found")) {
+            setWrongPasswordError("Email Not Found. ");
+            setOpen(true);
+          }
         });
     }
   };
@@ -73,6 +83,23 @@ const Login = () => {
               </div>
 
               <br />
+              <Collapse in={open}>
+                <Alert
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpen(false);
+                      }}>
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}>
+                  {wrongPasswordError}
+                </Alert>
+              </Collapse>
               <TextField
                 helperText={emailError}
                 id="demo-helper-text-misaligned"
