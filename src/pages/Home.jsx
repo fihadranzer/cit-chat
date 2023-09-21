@@ -3,7 +3,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import { Alert, Grid } from "@mui/material";
-
+import Leftbar from "../components/Leftbar";
 const Home = () => {
   const auth = getAuth();
   const navigate = useNavigate();
@@ -14,17 +14,31 @@ const Home = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setEmailverify(user.emailVerified);
-        console.log(user)
+        console.log(user);
       } else {
         console.log("There is no user");
-        navigate('/login')
+        navigate("/login");
       }
     });
   }, []);
   return (
     <>
       {emailVerify ? (
-        <h1>Home</h1>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            {/* left bar component is defined here */}
+            <Leftbar/>
+          </Grid>
+          <Grid item xs={4}>
+            middle
+          </Grid>
+          <Grid item xs={3}>
+            middle-right
+          </Grid>
+          <Grid item xs={3}>
+            right
+          </Grid>
+        </Grid>
       ) : (
         <Grid container spacing={2}>
           <Grid item xs={4}></Grid>

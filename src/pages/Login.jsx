@@ -3,7 +3,14 @@ import "../styles/login.css";
 import { Grid, TextField, Button, Alert, Collapse } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+} from "firebase/auth";
+
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 const Login = () => {
@@ -22,6 +29,60 @@ const Login = () => {
 
   let handleIconClick = () => {
     setcheCkPassword(!checkPassword);
+  };
+
+  let handleGoogleSignIn = () => {
+    console.log("clicked");
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+
+        navigate("/home");
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  };
+
+  let handleFbSignIn = () => {
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = FacebookAuthProvider.credentialFromError(error);
+
+        // ...
+      });
   };
 
   const handleOnSubmit = () => {
@@ -64,7 +125,10 @@ const Login = () => {
             <div className="left__box">
               <h1>Login to your account!</h1>
               <div className="social_btn_box">
-                <div className="btn google">
+                <div
+                  className="btn google"
+                  onClick={handleGoogleSignIn}
+                  style={{ cursor: "pointer" }}>
                   <img
                     src="./assets/images/google.png"
                     alt="google-icon"
@@ -72,7 +136,10 @@ const Login = () => {
                   />
                   <p>Login with Google</p>
                 </div>
-                <div className="btn facebook">
+                <div
+                  className="btn facebook"
+                  onClick={handleFbSignIn}
+                  style={{ cursor: "pointer" }}>
                   <img
                     src="./assets/images/facebook.png"
                     alt="google-icon"
