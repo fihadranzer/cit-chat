@@ -27,7 +27,7 @@ const Home = () => {
         <Grid container spacing={2}>
           <Grid item xs={2}>
             {/* left bar component is defined here */}
-            <Leftbar/>
+            <Leftbar active="home"/>
           </Grid>
           <Grid item xs={4}>
             middle

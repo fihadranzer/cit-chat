@@ -8,6 +8,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 
 const Registration = () => {
@@ -52,6 +53,16 @@ const Registration = () => {
           console.log(user);
           sendEmailVerification(auth.currentUser).then(() => {
             console.log("Verification email sent");
+            updateProfile(auth.currentUser, {
+              displayName: name,
+              photoURL: "https://example.com/jane-q-user/profile.jpg",
+            })
+              .then(() => {
+               console.log("name set")
+              })
+              .catch((error) => {
+                console.log(error)
+              });
           });
           navigate("/login");
         })
@@ -61,7 +72,7 @@ const Registration = () => {
             setExixtingEmailError(
               "Email is already in use please try with another email"
             );
-            setOpen(true)
+            setOpen(true);
           }
         });
     }
