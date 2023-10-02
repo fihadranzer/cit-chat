@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-
 import { Alert, Grid } from "@mui/material";
+
+
 import Leftbar from "../components/Leftbar";
+import Search from "../components/Search";
+import GroupList from "../components/GroupList";
 const Home = () => {
   const auth = getAuth();
   const navigate = useNavigate();
@@ -30,7 +33,8 @@ const Home = () => {
             <Leftbar active="home"/>
           </Grid>
           <Grid item xs={4}>
-            middle
+            <Search></Search>
+            <GroupList></GroupList>
           </Grid>
           <Grid item xs={3}>
             middle-right
