@@ -11,8 +11,11 @@ import {
   updateProfile,
 } from "firebase/auth";
 
+import { getDatabase, ref, set } from "firebase/database";
+
 const Registration = () => {
   const auth = getAuth();
+  const db = getDatabase();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
@@ -58,10 +61,14 @@ const Registration = () => {
               photoURL: "https://example.com/jane-q-user/profile.jpg",
             })
               .then(() => {
-               console.log("name set")
+                console.log("name set");
+                set(ref(db, "users/" + auth.currentUser.uid), {
+                  username: name,
+                  email: email,
+                });
               })
               .catch((error) => {
-                console.log(error)
+                console.log(error);
               });
           });
           navigate("/login");

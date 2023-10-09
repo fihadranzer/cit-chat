@@ -3,10 +3,12 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { Alert, Grid } from "@mui/material";
 
-
 import Leftbar from "../components/Leftbar";
 import Search from "../components/Search";
 import GroupList from "../components/GroupList";
+import FriendRequest from "../components/FriendRequest";
+import Friends from "../components/Friends";
+import UserList from "../components/UserList";
 const Home = () => {
   const auth = getAuth();
   const navigate = useNavigate();
@@ -17,7 +19,6 @@ const Home = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setEmailverify(user.emailVerified);
-        console.log(user);
       } else {
         console.log("There is no user");
         navigate("/login");
@@ -30,17 +31,18 @@ const Home = () => {
         <Grid container spacing={2}>
           <Grid item xs={2}>
             {/* left bar component is defined here */}
-            <Leftbar active="home"/>
+            <Leftbar active="home" />
           </Grid>
           <Grid item xs={4}>
             <Search></Search>
             <GroupList></GroupList>
+            <FriendRequest></FriendRequest>
           </Grid>
           <Grid item xs={3}>
-            middle-right
+            <Friends />
           </Grid>
           <Grid item xs={3}>
-            right
+            <UserList />
           </Grid>
         </Grid>
       ) : (

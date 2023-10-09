@@ -1,14 +1,18 @@
 .group__list {
   padding: 15px 30px;
-  margin-top: 40px;
   width: 100%;
   border-radius: 20px;
+  height: 380px;
   border: 0;
   -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  overflow-y: scroll;
+  margin-bottom: 30px;
 }
-
+.group__list::-webkit-scrollbar {
+  display: none;
+}
 .goroup__list_heading {
   display: flex;
   justify-content: space-between;
@@ -58,4 +62,34 @@
 .group__message {
   color: #4d4d4d;
   font-size: 16px;
+}
+
+.group__list .friends__list {
+  padding: 15px 20px;
+  height: 600px;
+}
+
+.friends__list .list__info {
+  padding: 0 10px;
+}
+
+.friends__list .profile_image img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.friends__list .group__message {
+  font-size: 12px;
+}
+
+.friends__list .group__message__time {
+  font-size: 10px;
+}
+
+
+.friends__list .group__btn button{
+  font-size: 20px;
+  padding: 10px;
+  height: 30px;
 }

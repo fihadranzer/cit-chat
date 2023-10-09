@@ -9,8 +9,8 @@
 .leftBar__mainBox {
   height: 98%;
   background-color: #5f35f5;
-  min-width: 90%;
-  width: 100%;
+  position: fixed;
+  width: 180px;
   border-radius: 20px;
   margin: 10px;
   display: flex;
